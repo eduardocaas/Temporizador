@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="https://img.icons8.com/officexs/30/000000/clock.png">
+    <title>Timer</title>
+
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500&display=swap');
+
+        body{
+            background-color: #338566;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .head{
+            font-size: 2.2rem;
+            font-weight: 300;
+        }
+
+        .relogio{
+            font-size: 3.8rem;
+            font-weight: 200;
+        }
+
+        button{
+            font-size: 1.3rem;
+            width: 100px;
+            height: 40px;
+            border: none;
+            background-color: #dadada;
+            text-transform: uppercase;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        button:active{
+            background-color: #d7d7d7;
+        }
+
+        .container{
+            padding: 20px;
+            width: 500px;
+            height: 200px;
+            margin: 50px auto;
+            border-radius: 4px;
+            background-color: #ffffff;
+
+        }
+
+        .pausado{
+            color: #9d0000;
+        }
+
+        @media (max-width: 600px) {
+
+            .container{
+                width: 300px;
+                text-align: center;
+            }
+
+            button{
+                font-size: 1.2rem;
+                width: auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <section class="container">
+        <span class="head">Temporizador</span>
+        <br>
+        <span class="relogio">00:00:00</span>
+        <p>
+            <button class="iniciar">Iniciar</button>
+            <button class="pausar">Pausar</button>
+            <button class="zerar">Zerar</button>
+        </p>
+    </section>
+
+    <script>
+        function relogio() {
+
+            const relogio = document.querySelector('.relogio');
+            const iniciar = document.querySelector('.iniciar');
+            const pausar = document.querySelector('.pausar');
+            const zerar = document.querySelector('.zerar');
+
+
+            function criaHoraDosSegundos(segundos) {
+                const data = new Date(segundos * 1000);
+                return data.toLocaleTimeString('pt-BR', {
+                    hour12: false,
+                    timeZone: 'UTC'
+                });
+            }
+
+            let segundos = 0;
+            let timer;
+
+            function iniciaRelogio() {
+                timer = setInterval(function() {
+                    segundos++;
+                    relogio.innerHTML = criaHoraDosSegundos(segundos);
+                }, 1000);
+            }
+
+            iniciar.addEventListener('click' , function () {
+                clearInterval(timer);
+                relogio.classList.remove('pausado');
+                iniciaRelogio();
+            });
+
+            pausar.addEventListener('click' , function () {
+              clearInterval(timer);
+              relogio.classList.add('pausado');
+            });
+
+            zerar.addEventListener('click' , function () {
+               clearInterval(timer);
+               relogio.classList.remove('pausado');
+               relogio.innerHTML = '00:00:00';
+               segundos = 0;
+            });
+
+        }
+
+        relogio();
+
+    </script>
+
+</body>
+</html>
